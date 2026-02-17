@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking ENHYPEN</title>  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0f0f0f;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+
+    .battle {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .option {
+      background: #262626;
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background: #333333;
+      transform: scale(1.02);
+    }
+
+    .result {
+      display: none;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      background: #262626;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      margin-top: 20px;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #dddddd;
+    }
+  </style></head>
+<body>  <div class="container"><div id="game">
+  <h1>Ranking: ENHYPEN</h1>
+  <p>Escolha quem você prefere 💜</p>
+
+  <div class="battle">
+    <div class="option" id="option1"></div>
+    <div class="option" id="option2"></div>
+  </div>
+</div>
+
+
+<div id="result" class="result">
+  <h1>Seu Ranking ✨</h1>
+  <ul id="rankingList"></ul>
+  <button onclick="restart()">Refazer</button>
+</div>
+
+  </div>  <script>
+
+    const members = [
+      "Jake",
+      "Jay",
+      "Sunoo",
+      "Jungwon",
+      "Ni-Ki",
+      "Heeseung",
+      "Sunghoon"
+    ];
+
+    let scores = {};
+    let pairs = [];
+    let current = 0;
+
+    const option1 = document.getElementById("option1");
+    const option2 = document.getElementById("option2");
+    const game = document.getElementById("game");
+    const result = document.getElementById("result");
+    const rankingList = document.getElementById("rankingList");
+
+
+    function init() {
+      scores = {};
+      pairs = [];
+      current = 0;
+
+      members.forEach(m => scores[m] = 0);
+
+      // Criar todos os pares
+      for (let i = 0; i < members.length; i++) {
+        for (let j = i + 1; j < members.length; j++) {
+          pairs.push([members[i], members[j]]);
+        }
+      }
+
+      // Embaralhar
+      pairs.sort(() => Math.random() - 0.5);
+
+      showPair();
+    }
+
+
+    function showPair() {
+      if (current >= pairs.length) {
+        showResult();
+        return;
+      }
+
+      const [a, b] = pairs[current];
+
+      option1.textContent = a;
+      option2.textContent = b;
+    }
+
+
+    function choose(winner) {
+      scores[winner]++;
+      current++;
+      showPair();
+    }
+
+
+    option1.onclick = () => choose(option1.textContent);
+    option2.onclick = () => choose(option2.textContent);
+
+
+    function showResult() {
+      game.style.display = "none";
+      result.style.display = "block";
+
+      const ranking = Object.entries(scores)
+        .sort((a, b) => b[1] - a[1]);
+
+      rankingList.innerHTML = "";
+
+      ranking.forEach(([name, score], index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span>#${index + 1}</span> <span>${name}</span>`;
+        rankingList.appendChild(li);
+      });
+    }
+
+
+    function restart() {
+      game.style.display = "block";
+      result.style.display = "none";
+      init();
+    }
+
+
+    init();
+
+  </script></body>
+</html>
