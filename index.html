@@ -8,191 +8,130 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Arial;
       background: #0f0f0f;
-      color: #ffffff;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;
     }
 
     .container {
-      width: 100%;
-      max-width: 500px;
+      width: 90%;
+      max-width: 400px;
       background: #1a1a1a;
-      padding: 25px;
+      padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
       text-align: center;
     }
 
-    h1 {
-      margin-bottom: 10px;
-      font-size: 24px;
-    }
-
-    p {
-      font-size: 14px;
-      opacity: 0.7;
-      margin-bottom: 20px;
-    }
-
-    .battle {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
     .option {
-      background: #262626;
+      background: #2a2a2a;
       padding: 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 18px;
-      transition: 0.2s;
-    }
-
-    .option:hover {
-      background: #333333;
-      transform: scale(1.02);
-    }
-
-    .result {
-      display: none;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 20px;
-    }
-
-    li {
-      background: #262626;
-      margin: 8px 0;
-      padding: 10px;
+      margin: 10px 0;
       border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    button {
-      margin-top: 20px;
-      background: #ffffff;
-      color: #000000;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 20px;
       cursor: pointer;
-      font-weight: bold;
-    }
-
-    button:hover {
-      background: #dddddd;
     }
   </style>
 </head>
+
 <body>
 
-  <div class="container">
+<div class="container">
+  <h1>Ranking: Male Idols</h1>
+  <p>Escolha quem você prefere 💜</p>
 
-    <div id="game">
-      <h1>Ranking: Male Idols</h1>
-      <p>Escolha quem você prefere 💜</p>
-
-      <div class="battle">
-        <div class="option" id="option1"></div>
-        <div class="option" id="option2"></div>
-      </div>
-    </div>
-
-    <div id="result" class="result">
-      <h1>Seu Ranking ✨</h1>
-      <ul id="rankingList"></ul>
-      <button onclick="restart()">Refazer</button>
-    </div>
-
+  <div id="game">
+    <div id="option1" class="option"></div>
+    <div id="option2" class="option"></div>
   </div>
 
-  <script>
+  <div id="result" style="display:none;">
+    <h2>Seu ranking</h2>
+    <ul id="rankingList"></ul>
+  </div>
+</div>
 
-    const members = [
-      "Huening Kai",
-      "Taehyun",
-      "Martin",
-      "Seonghyeon",
-      "Maki",
-      "Euijoo",
-      "Nicholas",
-      "Yuma",
-      "Jake",
-      "Ni-Ki",
-      "Sunoo",
-      "Bang Chan",
-      "Jay",
-      "Beomgyu"
-    ];
+<script>
 
-    let scores = {};
-    let pairs = [];
-    let current = 0;
+const members = [
+  "Huening Kai",
+  "Taehyun",
+  "Martin",
+  "Seonghyeon",
+  "Maki",
+  "Euijoo",
+  "Nicholas",
+  "Yuma",
+  "Jake",
+  "Ni-Ki",
+  "Sunoo",
+  "Bang Chan",
+  "Jay",
+  "Beomgyu"
+];
 
-    const option1 = document.getElementById("option1");
-    const option2 = document.getElementById("option2");
-    const game = document.getElementById("game");
-    const result = document.getElementById("result");
-    const rankingList = document.getElementById("rankingList");
+let scores = {};
+let pairs = [];
+let current = 0;
 
-    function init() {
-      scores = {};
-      pairs = [];
-      current = 0;
+const option1 = document.getElementById("option1");
+const option2 = document.getElementById("option2");
+const rankingList = document.getElementById("rankingList");
 
-      members.forEach(m => scores[m] = 0);
+function init() {
+  members.forEach(m => scores[m] = 0);
 
-      for (let i = 0; i < members.length; i++) {
-        for (let j = i + 1; j < members.length; j++) {
-          pairs.push([members[i], members[j]]);
-        }
-      }
-
-      pairs.sort(() => Math.random() - 0.5);
-
-      showPair();
+  for (let i = 0; i < members.length; i++) {
+    for (let j = i + 1; j < members.length; j++) {
+      pairs.push([members[i], members[j]]);
     }
+  }
 
-    function showPair() {
-      if (current >= pairs.length) {
-        showResult();
-        return;
-      }
+  pairs.sort(() => Math.random() - 0.5);
+  showPair();
+}
 
-      const [a, b] = pairs[current];
+function showPair() {
+  if (current >= pairs.length) {
+    showResult();
+    return;
+  }
 
-      option1.textContent = a;
-      option2.textContent = b;
-    }
+  option1.textContent = pairs[current][0];
+  option2.textContent = pairs[current][1];
+}
 
-    function choose(winner) {
-      scores[winner]++;
-      current++;
-      showPair();
-    }
+option1.onclick = () => {
+  scores[option1.textContent]++;
+  current++;
+  showPair();
+};
 
-    option1.onclick = () => choose(option1.textContent);
-    option2.onclick = () => choose(option2.textContent);
+option2.onclick = () => {
+  scores[option2.textContent]++;
+  current++;
+  showPair();
+};
 
-    function showResult() {
-      game.style.display = "none";
-      result.style.display = "block";
+function showResult() {
+  document.getElementById("game").style.display = "none";
+  document.getElementById("result").style.display = "block";
 
-      const ranking = Object.entries(scores)
-        .sort((a, b) => b[1] - a[1]);
+  const ranking = Object.entries(scores)
+    .sort((a, b) => b[1] - a[1]);
 
-      rankingList.innerHTML = "";
+  ranking.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${index + 1}. ${item[0]}`;
+    rankingList.appendChild(li);
+  });
+}
 
-      ranking.forEach(([name, score], index) => {
-        const li = document.createElement("li");
-        li.innerHTML = `<span>#${index + 1}</span> <span>${name}</span
+init();
+
+</script>
+
+</body>
+</html>
