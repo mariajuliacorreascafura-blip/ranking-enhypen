@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ranking ENHYPEN</title>  <style>
+  <title>Ranking Male Idols</title>
+
+  <style>
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -89,34 +92,47 @@
     button:hover {
       background: #dddddd;
     }
-  </style></head>
-<body>  <div class="container"><div id="game">
-  <h1>Ranking: ENHYPEN</h1>
-  <p>Escolha quem você prefere 💜</p>
+  </style>
+</head>
+<body>
 
-  <div class="battle">
-    <div class="option" id="option1"></div>
-    <div class="option" id="option2"></div>
+  <div class="container">
+
+    <div id="game">
+      <h1>Ranking: Male Idols</h1>
+      <p>Escolha quem você prefere 💜</p>
+
+      <div class="battle">
+        <div class="option" id="option1"></div>
+        <div class="option" id="option2"></div>
+      </div>
+    </div>
+
+    <div id="result" class="result">
+      <h1>Seu Ranking ✨</h1>
+      <ul id="rankingList"></ul>
+      <button onclick="restart()">Refazer</button>
+    </div>
+
   </div>
-</div>
 
-
-<div id="result" class="result">
-  <h1>Seu Ranking ✨</h1>
-  <ul id="rankingList"></ul>
-  <button onclick="restart()">Refazer</button>
-</div>
-
-  </div>  <script>
+  <script>
 
     const members = [
+      "Huening Kai",
+      "Taehyun",
+      "Martin",
+      "Seonghyeon",
+      "Maki",
+      "Euijoo",
+      "Nicholas",
+      "Yuma",
       "Jake",
-      "Jay",
-      "Sunoo",
-      "Jungwon",
       "Ni-Ki",
-      "Heeseung",
-      "Sunghoon"
+      "Sunoo",
+      "Bang Chan",
+      "Jay",
+      "Beomgyu"
     ];
 
     let scores = {};
@@ -129,7 +145,6 @@
     const result = document.getElementById("result");
     const rankingList = document.getElementById("rankingList");
 
-
     function init() {
       scores = {};
       pairs = [];
@@ -137,19 +152,16 @@
 
       members.forEach(m => scores[m] = 0);
 
-      // Criar todos os pares
       for (let i = 0; i < members.length; i++) {
         for (let j = i + 1; j < members.length; j++) {
           pairs.push([members[i], members[j]]);
         }
       }
 
-      // Embaralhar
       pairs.sort(() => Math.random() - 0.5);
 
       showPair();
     }
-
 
     function showPair() {
       if (current >= pairs.length) {
@@ -163,17 +175,14 @@
       option2.textContent = b;
     }
 
-
     function choose(winner) {
       scores[winner]++;
       current++;
       showPair();
     }
 
-
     option1.onclick = () => choose(option1.textContent);
     option2.onclick = () => choose(option2.textContent);
-
 
     function showResult() {
       game.style.display = "none";
@@ -186,20 +195,4 @@
 
       ranking.forEach(([name, score], index) => {
         const li = document.createElement("li");
-        li.innerHTML = `<span>#${index + 1}</span> <span>${name}</span>`;
-        rankingList.appendChild(li);
-      });
-    }
-
-
-    function restart() {
-      game.style.display = "block";
-      result.style.display = "none";
-      init();
-    }
-
-
-    init();
-
-  </script></body>
-</html>
+        li.innerHTML = `<span>#${index + 1}</span> <span>${name}</span
