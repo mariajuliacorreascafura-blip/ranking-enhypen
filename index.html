@@ -3,73 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ranking Male Idols</title>
+  <title>Ali Hazelwood Books</title>
+
+  <!-- fonte fofa -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
-      font-family: Arial;
-      background: #0f0f0f;
-      color: #fff;
+      font-family: 'Quicksand', sans-serif;
+      background: #ffe4ec;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* corações no fundo */
+    body::before {
+      content: "❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️";
+      position: absolute;
+      font-size: 40px;
+      opacity: 0.1;
+      width: 200%;
+      height: 200%;
+      animation: move 20s linear infinite;
+    }
+
+    @keyframes move {
+      from { transform: translateY(0); }
+      to { transform: translateY(-50%); }
     }
 
     .container {
       width: 90%;
       max-width: 400px;
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 12px;
+      background: #fff0f5;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(255, 100, 150, 0.3);
       text-align: center;
+      z-index: 1;
+    }
+
+    h1 {
+      color: #ff4d6d;
+    }
+
+    p {
+      color: #555;
     }
 
     .option {
-      background: #2a2a2a;
+      background: #ffccd5;
       padding: 15px;
       margin: 10px 0;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
+      transition: 0.2s;
     }
+
+    .option:hover {
+      background: #ffb3c1;
+      transform: scale(1.03);
+    }
+
+    #result {
+      display: none;
+    }
+
+    li {
+      background: #ffe4ec;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
   </style>
 </head>
 
 <body>
 
 <div class="container">
-  <h1>Ranking: Male Idols</h1>
-  <p>Escolha quem você prefere 💜</p>
+  <h1>Ali Hazelwood Books 💖</h1>
+  <p>Escolha seu favorito 💌</p>
 
   <div id="game">
     <div id="option1" class="option"></div>
     <div id="option2" class="option"></div>
   </div>
 
-  <div id="result" style="display:none;">
-    <h2>Seu ranking</h2>
+  <div id="result">
+    <h2>Seu ranking 💕</h2>
     <ul id="rankingList"></ul>
   </div>
 </div>
 
 <script>
 
-const members = [
-  "Huening Kai",
-  "Taehyun",
-  "Martin",
-  "Seonghyeon",
-  "Maki",
-  "Euijoo",
-  "Nicholas",
-  "Yuma",
-  "Jake",
-  "Ni-Ki",
-  "Sunoo",
-  "Bang Chan",
-  "Jay",
-  "Beomgyu"
+const books = [
+  "Amor, teoricamente",
+  "A razão do amor",
+  "Hipótese do amor",
+  "Não é amor",
+  "Um inverno cruel com você",
+  "Presa com você",
+  "Xeque mate",
+  "A noiva",
+  "Um amor problemático de verão",
+  "No fundo é amor"
 ];
 
 let scores = {};
@@ -81,11 +124,11 @@ const option2 = document.getElementById("option2");
 const rankingList = document.getElementById("rankingList");
 
 function init() {
-  members.forEach(m => scores[m] = 0);
+  books.forEach(b => scores[b] = 0);
 
-  for (let i = 0; i < members.length; i++) {
-    for (let j = i + 1; j < members.length; j++) {
-      pairs.push([members[i], members[j]]);
+  for (let i = 0; i < books.length; i++) {
+    for (let j = i + 1; j < books.length; j++) {
+      pairs.push([books[i], books[j]]);
     }
   }
 
